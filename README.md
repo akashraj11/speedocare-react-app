@@ -6,6 +6,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `npm install`
+
+This will install all required dependencies for the project.
+
 ### `npm start`
 
 Runs the app in the development mode.\
@@ -28,43 +32,22 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
 ### Analyzing the Bundle Size
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
 ### Advanced Configuration
+Add Environment Variables:
+In your Netlify site settings, navigate to "Build & Deploy" > "Environment" and create two new environment variables:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+`NETLIFY_SITE_ID`: Set this to your Netlify site's unique ID.
+`NETLIFY_AUTH_TOKEN`: Generate a personal access token from Netlify and set it as the value for this variable. This token will be used to authenticate the deployment.
+Configure React Project:
+Make sure your React project is set up with a valid package.json file and the necessary scripts for building and testing your app. Typically, this includes a "build" script to create a production build and a "test" script to run your tests.
+
 
 ### Deployment
+The Pipeline created using Github Actions Workflow does this. Make sure inside your project's repository, create a new directory called .github/workflows. Inside this directory, create a YAML file (e.g., `netlify-deploy.yml`) to define your GitHub Actions workflow.
+[https://docs.netlify.com/cli/get-started/](https://docs.netlify.com/cli/get-started/)
+[https://dev.to/dancrtis/ci-cd-pipeline-with-netlify-and-github-actions-bcm](https://dev.to/dancrtis/ci-cd-pipeline-with-netlify-and-github-actions-bcm)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Any push done to master branch run the build pipeline and deploy the application at [https://speedocare.netlify.app/](https://speedocare.netlify.app/)

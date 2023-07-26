@@ -1,5 +1,4 @@
-// DashboardPage.js
-import React from 'react';
+import React, { useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -7,13 +6,55 @@ import {
   Container,
   Grid,
   Paper,
-  Button,
   Box,
+  TextField,
+  Autocomplete,
+  Button,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, LinkedIn, YouTube } from '@mui/icons-material';
 
+// Sample data for doctors and hospitals (You can replace this with your actual data)
+const doctorData = [
+  { id: 1, name: 'Dr. John Doe' },
+  { id: 2, name: 'Dr. Jane Smith' },
+  { id: 3, name: 'Dr. Michael Johnson' },
+];
+
+const hospitalData = [
+  { id: 1, name: 'XYZ Hospital' },
+  { id: 2, name: 'ABC Medical Center' },
+  { id: 3, name: '123 Clinic' },
+];
+
 function DashboardPage() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleSearchChange = (event, value) => {
+    setSearchTerm(value);
+    searchDoctorAndHospital(value);
+  };
+
+  const searchDoctorAndHospital = (searchTerm) => {
+    // Handle the null case when search bar is cleared
+    if (!searchTerm) {
+      setSearchResults([]);
+      return;
+    }
+
+    // Filter doctors and hospitals based on the search term
+    const filteredDoctors = doctorData.filter((doctor) =>
+      doctor.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const filteredHospitals = hospitalData.filter((hospital) =>
+      hospital.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    setSearchResults([...filteredDoctors, ...filteredHospitals]);
+  };
+
   return (
     <div>
       {/* Top Navigation Bar */}
@@ -21,15 +62,21 @@ function DashboardPage() {
         <Toolbar>
           {/* Add your logo here */}
           <Typography variant="h6">Clinic Reservation</Typography>
-          <Button color="inherit" component={Link} to="/home">
-            Home
-          </Button>
-          <Button color="inherit" component={Link} to="/appointments">
-            Appointments
-          </Button>
-          <Button color="inherit" component={Link} to="/patients">
-            Patients
-          </Button>
+          <Autocomplete
+            freeSolo
+            options={[]}
+            value={searchTerm}
+            onChange={handleSearchChange}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Search"
+                variant="outlined"
+                style={{ marginLeft: '20px', marginRight: '20px' }}
+              />
+            )}
+            style={{ marginLeft: '20px', marginRight: '20px', width: '500px' }}
+          />
           {/* Add more menu items as needed */}
         </Toolbar>
       </AppBar>
@@ -47,7 +94,31 @@ function DashboardPage() {
             </Paper>
           </Grid>
         </Grid>
+
+        {/* Book Now Button */}
+        <Grid container justifyContent="center" style={{ marginTop: '20px' }}>
+          <Button
+            variant="contained"
+            color="primary"
+            component={Link}
+            to="/booking" // Replace "/booking" with the actual path of the booking page
+          >
+            Book Now
+          </Button>
+        </Grid>
       </Container>
+
+      {/* Search Results */}
+      {searchResults.length > 0 && (
+        <Container maxWidth="lg" style={{ marginTop: '20px' }}>
+          <Typography variant="h5">Search Results</Typography>
+          <ul>
+            {searchResults.map((result) => (
+              <li key={result.id}>{result.name}</li>
+            ))}
+          </ul>
+        </Container>
+      )}
 
       {/* Footer */}
       <footer style={{ backgroundColor: '#f7f7f7', padding: '20px', marginTop: '20px' }}>
@@ -59,8 +130,17 @@ function DashboardPage() {
                 <li>Resource Hub</li>
                 <li>Compare</li>
                 <li>Company & News</li>
-                <li>DSOs</li>
-                <li>FAQs</li>
+                <li>
+                  <Button
+                    variant="text"
+                    color="inherit"
+                    component={Link} // Use Link component for navigation
+                    to="/faq" // Redirect to the FAQ page when the button is clicked
+                    style={{ marginLeft: '-12px' }}
+                  >
+                    FAQs
+                  </Button>
+                </li>
                 <li>API Support Request</li>
               </ul>
             </Grid>
@@ -85,12 +165,7 @@ function DashboardPage() {
           <hr style={{ margin: '20px 0' }} />
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              {/* <img
-                src="newspaper.svg"
-                alt="Newspaper"
-                style={{ height: '30px', marginRight: '10px' }}
-              /> */}
-              <Typography variant="body2">Copyright © 2023. Made in SF, California</Typography>
+              <Typography variant="body2">Copyright © 2023. Made in Conestoga, DTK Campus</Typography>
             </Grid>
             <Grid item xs={12} sm={6} style={{ display: 'flex', justifyContent: 'flex-end' }}>
               <Box display="flex" alignItems="center">
@@ -100,15 +175,6 @@ function DashboardPage() {
                 <LinkedIn fontSize="small" style={{ marginRight: '8px' }} />
                 <YouTube fontSize="small" />
               </Box>
-              <Button
-                variant="text"
-                color="inherit"
-                component="a"
-                href="tel:+1"
-                style={{ marginLeft: '10px' }}
-              >
-                (866) 123-1838
-              </Button>
             </Grid>
           </Grid>
         </Container>

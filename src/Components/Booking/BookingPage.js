@@ -34,8 +34,10 @@ function BookingPage() {
 
   return (
     <Container maxWidth="md" style={{ marginTop: '20px' }}>
-      <Paper style={{ padding: '20px' }}>
-        <Typography variant="h5">Book Clinic Reservation</Typography>
+      <Paper style={{ padding: '20px', backgroundColor: '#ffffff' }}>
+        <Typography variant="h5" style={{ color: '#0a7557' }}>
+          Book Clinic Reservation
+        </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <TextField
@@ -51,7 +53,9 @@ function BookingPage() {
           </Grid>
           <Grid item xs={12} md={6}>
             <FormControl fullWidth>
-              <InputLabel id="clinic-label">Select Clinic</InputLabel>
+              <InputLabel id="clinic-label" style={{ color: '#0a7557' }}>
+                Select Clinic
+              </InputLabel>
               <Select
                 labelId="clinic-label"
                 value={selectedClinic}
@@ -67,7 +71,9 @@ function BookingPage() {
           </Grid>
           <Grid item xs={12} md={6}>
             <FormControl fullWidth>
-              <InputLabel id="disease-label">Select Disease</InputLabel>
+              <InputLabel id="disease-label" style={{ color: '#0a7557' }}>
+                Select Disease
+              </InputLabel>
               <Select
                 labelId="disease-label"
                 value={selectedDisease}
@@ -83,7 +89,9 @@ function BookingPage() {
           </Grid>
           <Grid item xs={12} md={6}>
             <FormControl fullWidth>
-              <InputLabel id="doctor-label">Select Doctor (Optional)</InputLabel>
+              <InputLabel id="doctor-label" style={{ color: '#0a7557' }}>
+                Select Doctor (Optional)
+              </InputLabel>
               <Select
                 labelId="doctor-label"
                 value={selectedDoctor}
@@ -99,7 +107,12 @@ function BookingPage() {
             </FormControl>
           </Grid>
           <Grid item xs={12}>
-            <Button variant="contained" color="primary" onClick={handleBooking}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleBooking}
+              style={{ backgroundColor: '#12d39d', color: '#ffffff' }}
+            >
               Book Now
             </Button>
           </Grid>

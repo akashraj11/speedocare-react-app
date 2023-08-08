@@ -1,77 +1,59 @@
-// LoginPage.js
 import React, { useState } from 'react';
-import { TextField, Button, Container, Box, Typography } from '@mui/material';
+import { Container, Typography, Paper, TextField, Button } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function LoginPage() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const handleLogin = async () => {
+    try {
+      // Call the login API
+      const response = await axios.post('http://127.0.0.1:5000/speedocare/login', {
+        username,
+        password,
+      });
 
-    // For demonstration purposes, hardcoded credentials
-    const hardcodedEmail = 'test@example.com';
-    const hardcodedPassword = 'password';
+      console.log(response.data); // Login successful message
 
-    // Check if the entered credentials match the hardcoded ones
-    if (email === hardcodedEmail && password === hardcodedPassword) {
-      // If credentials match, perform the login action (e.g., set a user session)
-      console.log('Login successful');
-      setError('');
+      // Store authentication token (if any) for subsequent API calls (You can use local storage, Redux, or any other state management library)
+      const authToken = response.data.token;
 
-      // Use the 'navigate' function to navigate to the dashboard page upon successful login
-      navigate('/dashboard');
-    } else {
-      // If credentials do not match, display an error message
-      setError('Invalid email or password');
+      // For this example, we are simply navigating to the dashboard page after login
+      navigate('/dashboard'); // Replace '/dashboard' with the actual path of your dashboard page
+    } catch (error) {
+      console.error('Login failed:', error.message);
     }
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box mt={5} textAlign="center">
-        <Typography variant="h4" gutterBottom>
+    <Container maxWidth="sm" style={{ marginTop: '20px', backgroundColor: '#e6e6e6', minHeight: '100vh' }}>
+      <Paper style={{ padding: '20px', backgroundColor: '#ffffff' }}>
+        <Typography variant="h5">Login</Typography>
+        <TextField
+          label="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          label="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          fullWidth
+          margin="normal"
+        />
+        <Button variant="contained" color="primary" onClick={handleLogin} style={{ backgroundColor: '#0a7557', marginTop: '20px' }}>
           Login
+        </Button>
+        <Typography variant="body2" style={{ marginTop: '10px' }}>
+          New User? <Link to="/register" style={{ color: '#0a7557' }}>Register</Link>
         </Typography>
-        <form onSubmit={handleLogin}>
-          <TextField
-            label="Email"
-            variant="outlined"
-            fullWidth
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            margin="normal"
-            required
-          />
-          <TextField
-            label="Password"
-            variant="outlined"
-            fullWidth
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            margin="normal"
-            required
-          />
-          <Button type="submit" variant="contained" color="primary">
-            Login
-          </Button>
-        </form>
-        {error && <Typography color="error">{error}</Typography>}
-        <Box mt={2}>
-          <Typography variant="body1" gutterBottom>
-            Don't have an account?{' '}
-            <Link to="/register" style={{ textDecoration: 'none' }}>
-              Register here
-            </Link>
-          </Typography>
-        </Box>
-      </Box>
+      </Paper>
     </Container>
   );
 }

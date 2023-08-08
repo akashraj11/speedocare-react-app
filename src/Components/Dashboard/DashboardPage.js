@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import {
   AppBar,
   Toolbar,
@@ -11,7 +12,7 @@ import {
   Autocomplete,
   Button,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, LinkedIn, YouTube } from '@mui/icons-material';
 
 // Sample data for doctors and hospitals (You can replace this with your actual data)
@@ -30,6 +31,7 @@ const hospitalData = [
 function DashboardPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const navigate = useNavigate();
 
   const handleSearchChange = (event, value) => {
     setSearchTerm(value);
@@ -37,7 +39,7 @@ function DashboardPage() {
   };
 
   const searchDoctorAndHospital = (searchTerm) => {
-    // Handle the null case when search bar is cleared
+    // Handle the null case when the search bar is cleared
     if (!searchTerm) {
       setSearchResults([]);
       return;
@@ -55,13 +57,29 @@ function DashboardPage() {
     setSearchResults([...filteredDoctors, ...filteredHospitals]);
   };
 
+  // Function to handle logout
+  const handleLogout = async () => {
+    try {
+      // Call the logout API
+      const response = await axios.post('http://127.0.0.1:5000/speedocare/logout');
+      console.log(response.data); // Logout successful message
+
+      // For this example, we are simply navigating to the login page after logout
+      navigate('/login'); // Replace '/login' with the actual path of your login page
+    } catch (error) {
+      console.error('Logout failed:', error.message);
+    }
+  };
+
   return (
-    <div>
+    <div style={{ backgroundColor: '#e6e6e6', minHeight: '100vh' }}>
       {/* Top Navigation Bar */}
-      <AppBar position="static">
+      <AppBar position="static" style={{ backgroundColor: '#0a7557' }}>
         <Toolbar>
           {/* Add your logo here */}
-          <Typography variant="h6">Clinic Reservation</Typography>
+          <Typography variant="h6" style={{ flexGrow: 1 }}>
+            Clinic Reservation
+          </Typography>
           <Autocomplete
             freeSolo
             options={[]}
@@ -77,6 +95,10 @@ function DashboardPage() {
             )}
             style={{ marginLeft: '20px', marginRight: '20px', width: '500px' }}
           />
+          {/* Logout Button */}
+          <Button color="inherit" onClick={handleLogout} style={{ marginRight: '20px' }}>
+            Logout
+          </Button>
           {/* Add more menu items as needed */}
         </Toolbar>
       </AppBar>
@@ -86,7 +108,7 @@ function DashboardPage() {
         <Grid container spacing={3}>
           {/* Replace this with your dashboard content */}
           <Grid item xs={12}>
-            <Paper style={{ padding: '20px' }}>
+            <Paper style={{ padding: '20px', backgroundColor: '#ffffff' }}>
               <Typography variant="h5">Welcome to the Dashboard</Typography>
               <Typography variant="body1">
                 This is the main content of your dashboard.
@@ -102,6 +124,7 @@ function DashboardPage() {
             color="primary"
             component={Link}
             to="/booking" // Replace "/booking" with the actual path of the booking page
+            style={{ backgroundColor: '#12d39d' }}
           >
             Book Now
           </Button>
@@ -136,7 +159,7 @@ function DashboardPage() {
                     color="inherit"
                     component={Link} // Use Link component for navigation
                     to="/faq" // Redirect to the FAQ page when the button is clicked
-                    style={{ marginLeft: '-12px' }}
+                    style={{ marginLeft: '-12px', color: '#61dafb' }} // Turquoise color for link
                   >
                     FAQs
                   </Button>
@@ -165,7 +188,9 @@ function DashboardPage() {
           <hr style={{ margin: '20px 0' }} />
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <Typography variant="body2">Copyright © 2023. Made in Conestoga, DTK Campus</Typography>
+              <Typography variant="body2">
+                Copyright © 2023. Made in Conestoga, DTK Campus
+              </Typography>
             </Grid>
             <Grid item xs={12} sm={6} style={{ display: 'flex', justifyContent: 'flex-end' }}>
               <Box display="flex" alignItems="center">

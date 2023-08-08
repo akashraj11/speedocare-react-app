@@ -1,4 +1,3 @@
-// FAQPage.js
 import React from 'react';
 import { Container, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -34,13 +33,13 @@ const faqData = [
 function FAQPage() {
   return (
     <Container maxWidth="lg" style={{ marginTop: '20px' }}>
-      <Typography variant="h4" style={{ marginBottom: '20px' }}>
+      <Typography variant="h4" style={{ marginBottom: '20px', color: '#0a7557' }}>
         Frequently Asked Questions
       </Typography>
       {faqData.map((faq, index) => (
         <Accordion key={index}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="h6">{faq.question}</Typography>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />} style={{ backgroundColor: '#e6e6e6' }}> {/* Light gray background */}
+            <Typography variant="h6" style={{ color: '#2bedb7' }}>{faq.question}</Typography> {/* Mint green color */}
           </AccordionSummary>
           <AccordionDetails>
             <Typography variant="body1">{faq.answer}</Typography>

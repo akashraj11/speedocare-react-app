@@ -40,12 +40,8 @@ function DashboardPage() {
 
   useEffect(() => {
     // Fetch initial search results when the component mounts
-    searchDoctorAndHospital(searchTerm);
-
-    console.log('user in dashboard')
-    console.log(user)
-    console.log(token)
-  }, [searchTerm]);
+    searchDoctorAndHospital(searchTerm); // eslint-disable-next-line
+  }, [searchTerm]); // eslint-disable-next-line
 
   const handleSearchChange = (event, value) => {
     setSearchTerm(value);

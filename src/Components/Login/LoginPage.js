@@ -13,7 +13,7 @@ function LoginPage() {
   const handleLogin = async () => {
     try {
       // Call the login API
-      const response = await axios.post('http://speedocare.pythonanywhere.com/speedocare/login', {
+      const response = await axios.post('https://speedocare.pythonanywhere.com/speedocare/login', {
         username,
         password,
       });

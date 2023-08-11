@@ -22,7 +22,7 @@ function ProfilePage() {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get('http://speedocare.pythonanywhere.com/speedocare/profile', {
+      const response = await axios.get('https://speedocare.pythonanywhere.com/speedocare/profile', {
         headers: {
           Authorization: `Bearer ${token}`,
         },

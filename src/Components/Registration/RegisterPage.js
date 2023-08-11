@@ -65,7 +65,7 @@ function RegisterPage() {
 
     try {
       // Make the POST request to register the user
-      const response = await axios.post('http://speedocare.pythonanywhere.com/speedocare/users', user);
+      const response = await axios.post('https://speedocare.pythonanywhere.com/speedocare/users', user);
 
       console.log('New user registered:', response.data);
       navigate('/login');

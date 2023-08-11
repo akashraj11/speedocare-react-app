@@ -73,7 +73,7 @@ function DashboardPage() {
     } else {
       try {
         axios
-          .get(`http://speedocare.pythonanywhere.com/speedocare/clinics/${searchTerm}`)
+          .get(`https://speedocare.pythonanywhere.com/speedocare/clinics/${searchTerm}`)
           .then((response) => {
             setSearchResults([response.data]);
           console.log(searchResults)
@@ -91,7 +91,7 @@ function DashboardPage() {
   const handleLogout = async () => {
     try {
       // Call the logout API with the token in headers
-      const response = await axios.post('http://speedocare.pythonanywhere.com/speedocare/logout', null, {
+      const response = await axios.post('https://speedocare.pythonanywhere.com/speedocare/logout', null, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

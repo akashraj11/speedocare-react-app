@@ -46,7 +46,9 @@ Make sure your React project is set up with a valid package.json file and the ne
 
 
 ### Deployment
+
 The Pipeline created using Github Actions Workflow does this. Make sure inside your project's repository, create a new directory called .github/workflows. Inside this directory, create a YAML file (e.g., `netlify-deploy.yml`) to define your GitHub Actions workflow.
+
 [https://docs.netlify.com/cli/get-started/](https://docs.netlify.com/cli/get-started/)
 [https://dev.to/dancrtis/ci-cd-pipeline-with-netlify-and-github-actions-bcm](https://dev.to/dancrtis/ci-cd-pipeline-with-netlify-and-github-actions-bcm)
 

@@ -22,7 +22,7 @@ function ClinicDetailsPage() {
 
   const fetchClinicDetails = async () => {
     try {
-      const response = await axios.get(`http://speedocare.pythonanywhere.com/speedocare/clinics/${clinicId}`);
+      const response = await axios.get(`https://speedocare.pythonanywhere.com/speedocare/clinics/${clinicId}`);
       setClinicDetails(response.data);
     } catch (error) {
       console.error('Failed to fetch clinic details:', error.message);
@@ -31,10 +31,10 @@ function ClinicDetailsPage() {
 
   const fetchDoctors = async () => {
     try {
-      const response = await axios.get(`http://speedocare.pythonanywhere.com/speedocare/users/doctors/clinic/${clinicId}`);
+      const response = await axios.get(`https://speedocare.pythonanywhere.com/speedocare/users/doctors/clinic/${clinicId}`);
       setDoctors(response.data);
     } catch (error) {
-      console.error('Failed to fetch doctors:', error.message);
+      console.error('Failed to fetch the doctors:', error.message);
     }
   };
 

@@ -55,7 +55,7 @@ function BookingPage() {
 
   const fetchClinicOptions = async () => {
     try {
-      const response = await axios.get('http://speedocare.pythonanywhere.com/speedocare/clinics');
+      const response = await axios.get('https://speedocare.pythonanywhere.com/speedocare/clinics');
       setClinicOptions(response.data);
     } catch (error) {
       console.error('Failed to fetch clinic options:', error.message);
@@ -65,7 +65,7 @@ function BookingPage() {
   const selectAndSetDoctorId = async (id) => {
     setSelectedDoctorId(id);
     try {
-      const response = await axios.get(`http://speedocare.pythonanywhere.com/speedocare/users/${id}`);
+      const response = await axios.get(`https://speedocare.pythonanywhere.com/speedocare/users/${id}`);
       setSelectedDoctorIdPost(response.data.doctor.doctor_id);
     } catch (error) {
       console.error('Failed to fetch doctor options:', error.message);
@@ -74,7 +74,7 @@ function BookingPage() {
 
   const fetchDoctorOptions = async () => {
     try {
-      const response = await axios.get('http://speedocare.pythonanywhere.com/speedocare/users/search?user_role=Doctor');
+      const response = await axios.get('https://speedocare.pythonanywhere.com/speedocare/users/search?user_role=Doctor');
       setDoctorOptions(response.data);
     } catch (error) {
       console.error('Failed to fetch doctor options:', error.message);
@@ -93,7 +93,7 @@ function BookingPage() {
       } else if (selectedDisease === 'Diabetes' || selectedDisease === 'Asthma') {
         price = 70;
       }
-      await axios.post('http://speedocare.pythonanywhere.com/speedocare/appointments', {
+      await axios.post('https://speedocare.pythonanywhere.com/speedocare/appointments', {
         appointment_id: appointmentId,
         patient_id: user,
         doctor_id: selectedDoctorIdPost,

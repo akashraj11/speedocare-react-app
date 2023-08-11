@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Container, Typography, Paper, TextField, Button } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 function LoginPage() {
@@ -20,11 +22,17 @@ function LoginPage() {
       const token = response.data.auth_token;
       const user = response.data.user_id;
       console.log('user')
-      console.log(user)
+      console.log(user);
       // navigate(`/dashboard?id=${encodeURIComponent(response.data.user_id)}&token=${encodeURIComponent(token)}`);
       navigate('/dashboard', { state: { token, user } });
     } catch (error) {
       console.error('Login failed:', error.message);
+      // Show toast message for incorrect credentials
+      toast.error('Incorrect username or password', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 3000,
+        theme: 'colored',
+      });
     }
   };
 
@@ -54,6 +62,8 @@ function LoginPage() {
           New User? <Link to="/register" style={{ color: '#0a7557' }}>Register</Link>
         </Typography>
       </Paper>
+      {/* Toast container */}
+      <ToastContainer />
     </Container>
   );
 }

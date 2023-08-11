@@ -18,11 +18,11 @@ function LoginPage() {
 
       // Store authentication token (if any) for subsequent API calls (You can use local storage, Redux, or any other state management library)
       const token = response.data.auth_token;
-      console.log('authToken')
-      console.log(response.data.user_id)
-      console.log(token)
+      const user = response.data.user_id;
+      console.log('user')
+      console.log(user)
       // navigate(`/dashboard?id=${encodeURIComponent(response.data.user_id)}&token=${encodeURIComponent(token)}`);
-      navigate('/dashboard', { state: { token } });
+      navigate('/dashboard', { state: { token, user } });
     } catch (error) {
       console.error('Login failed:', error.message);
     }

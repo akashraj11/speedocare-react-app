@@ -35,10 +35,16 @@ function DashboardPage() {
   const location = useLocation();
   const { state } = location;
   const token = state.token;
+  const user = state.user;
+
 
   useEffect(() => {
     // Fetch initial search results when the component mounts
     searchDoctorAndHospital(searchTerm);
+
+    console.log('user in dashboard')
+    console.log(user)
+    console.log(token)
   }, [searchTerm]);
 
   const handleSearchChange = (event, value) => {
@@ -55,8 +61,15 @@ function DashboardPage() {
 
   const handleViewProfile = () => {
     // Navigate to the ProfilePage and pass token as state
-    navigate('/profile', { state: { token } });
+    navigate('/profile', { state: { token, user } });
   };
+
+  const handleButtonClick = () => {
+    navigate('/booking', { state: { token, user } })
+
+  };
+
+
 
   const searchDoctorAndHospital = (searchTerm) => {
     if (searchTerm === null || searchTerm.trim() === '') {
@@ -156,8 +169,7 @@ function DashboardPage() {
           <Button
             variant="contained"
             color="primary"
-            component={Link}
-            to="/booking"
+            onClick={handleButtonClick}
             style={{ backgroundColor: '#12d39d' }}
           >
             Book Now

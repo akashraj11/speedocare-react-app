@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Container, Typography, Paper, TextField, Button } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 function LoginPage() {
@@ -11,20 +13,26 @@ function LoginPage() {
   const handleLogin = async () => {
     try {
       // Call the login API
-      const response = await axios.post('http://127.0.0.1:5000/speedocare/login', {
+      const response = await axios.post('http://speedocare.pythonanywhere.com/speedocare/login', {
         username,
         password,
       });
 
-      console.log(response.data); // Login successful message
-
       // Store authentication token (if any) for subsequent API calls (You can use local storage, Redux, or any other state management library)
-      const authToken = response.data.token;
-
-      // For this example, we are simply navigating to the dashboard page after login
-      navigate('/dashboard'); // Replace '/dashboard' with the actual path of your dashboard page
+      const token = response.data.auth_token;
+      const user = response.data.user_id;
+      console.log('user')
+      console.log(user);
+      // navigate(`/dashboard?id=${encodeURIComponent(response.data.user_id)}&token=${encodeURIComponent(token)}`);
+      navigate('/dashboard', { state: { token, user } });
     } catch (error) {
       console.error('Login failed:', error.message);
+      // Show toast message for incorrect credentials
+      toast.error('Incorrect username or password', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 3000,
+        theme: 'colored',
+      });
     }
   };
 
@@ -54,6 +62,8 @@ function LoginPage() {
           New User? <Link to="/register" style={{ color: '#0a7557' }}>Register</Link>
         </Typography>
       </Paper>
+      {/* Toast container */}
+      <ToastContainer />
     </Container>
   );
 }

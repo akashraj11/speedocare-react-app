@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   AppBar,
@@ -11,59 +11,84 @@ import {
   TextField,
   Autocomplete,
   Button,
+  IconButton,
+  Menu,
+  MenuItem,
 } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
-import { Facebook, Twitter, Instagram, LinkedIn, YouTube } from '@mui/icons-material';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import {
+  Facebook,
+  Twitter,
+  Instagram,
+  LinkedIn,
+  YouTube,
+  Notifications as NotificationsIcon,
+  AccountCircle as AccountCircleIcon,
+} from '@mui/icons-material';
 
-// Sample data for doctors and hospitals (You can replace this with your actual data)
-const doctorData = [
-  { id: 1, name: 'Dr. John Doe' },
-  { id: 2, name: 'Dr. Jane Smith' },
-  { id: 3, name: 'Dr. Michael Johnson' },
-];
-
-const hospitalData = [
-  { id: 1, name: 'XYZ Hospital' },
-  { id: 2, name: 'ABC Medical Center' },
-  { id: 3, name: '123 Clinic' },
-];
 
 function DashboardPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [profileMenuAnchor, setProfileMenuAnchor] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { state } = location;
+  const token = state.token;
+
+  useEffect(() => {
+    // Fetch initial search results when the component mounts
+    searchDoctorAndHospital(searchTerm);
+  }, [searchTerm]);
 
   const handleSearchChange = (event, value) => {
     setSearchTerm(value);
-    searchDoctorAndHospital(value);
+  };
+
+  const handleProfileMenuOpen = (event) => {
+    setProfileMenuAnchor(event.currentTarget);
+  };
+
+  const handleProfileMenuClose = () => {
+    setProfileMenuAnchor(null);
+  };
+
+  const handleViewProfile = () => {
+    // Navigate to the ProfilePage and pass token as state
+    navigate('/profile', { state: { token } });
   };
 
   const searchDoctorAndHospital = (searchTerm) => {
-    // Handle the null case when the search bar is cleared
-    if (!searchTerm) {
+    if (searchTerm === null || searchTerm.trim() === '') {
       setSearchResults([]);
-      return;
+    } else {
+      try {
+        axios
+          .get(`http://speedocare.pythonanywhere.com/speedocare/clinics/${searchTerm}`)
+          .then((response) => {
+            setSearchResults([response.data]);
+          console.log(searchResults)
+          })
+          .catch((error) => {
+            console.error('Failed to fetch clinic info:', error.message);
+          });
+      } catch (error) {
+        console.error('Failed to fetch clinic info:', error.message);
+      }
     }
-
-    // Filter doctors and hospitals based on the search term
-    const filteredDoctors = doctorData.filter((doctor) =>
-      doctor.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    const filteredHospitals = hospitalData.filter((hospital) =>
-      hospital.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    setSearchResults([...filteredDoctors, ...filteredHospitals]);
+    
   };
 
-  // Function to handle logout
   const handleLogout = async () => {
     try {
-      // Call the logout API
-      const response = await axios.post('http://127.0.0.1:5000/speedocare/logout');
+      // Call the logout API with the token in headers
+      const response = await axios.post('http://speedocare.pythonanywhere.com/speedocare/logout', null, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log(response.data); // Logout successful message
-
+  
       // For this example, we are simply navigating to the login page after logout
       navigate('/login'); // Replace '/login' with the actual path of your login page
     } catch (error) {
@@ -73,10 +98,8 @@ function DashboardPage() {
 
   return (
     <div style={{ backgroundColor: '#e6e6e6', minHeight: '100vh' }}>
-      {/* Top Navigation Bar */}
       <AppBar position="static" style={{ backgroundColor: '#0a7557' }}>
         <Toolbar>
-          {/* Add your logo here */}
           <Typography variant="h6" style={{ flexGrow: 1 }}>
             Clinic Reservation
           </Typography>
@@ -95,18 +118,31 @@ function DashboardPage() {
             )}
             style={{ marginLeft: '20px', marginRight: '20px', width: '500px' }}
           />
-          {/* Logout Button */}
-          <Button color="inherit" onClick={handleLogout} style={{ marginRight: '20px' }}>
-            Logout
-          </Button>
-          {/* Add more menu items as needed */}
+          {/* Notification Icon */}
+          <IconButton color="inherit">
+            <NotificationsIcon />
+          </IconButton>
+          {/* Profile Icon */}
+          <IconButton color="inherit" onClick={handleProfileMenuOpen}>
+            <AccountCircleIcon />
+          </IconButton>
+          <Menu
+            anchorEl={profileMenuAnchor}
+            open={Boolean(profileMenuAnchor)}
+            onClose={handleProfileMenuClose}
+          >
+            <MenuItem onClick={handleViewProfile}>
+              View Profile
+            </MenuItem>
+            <MenuItem component={Link} to="/appointments">
+              View Appointments
+            </MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
-
-      {/* Main Content */}
       <Container maxWidth="lg" style={{ marginTop: '20px' }}>
         <Grid container spacing={3}>
-          {/* Replace this with your dashboard content */}
           <Grid item xs={12}>
             <Paper style={{ padding: '20px', backgroundColor: '#ffffff' }}>
               <Typography variant="h5">Welcome to the Dashboard</Typography>
@@ -116,34 +152,39 @@ function DashboardPage() {
             </Paper>
           </Grid>
         </Grid>
-
-        {/* Book Now Button */}
         <Grid container justifyContent="center" style={{ marginTop: '20px' }}>
           <Button
             variant="contained"
             color="primary"
             component={Link}
-            to="/booking" // Replace "/booking" with the actual path of the booking page
+            to="/booking"
             style={{ backgroundColor: '#12d39d' }}
           >
             Book Now
           </Button>
         </Grid>
       </Container>
-
-      {/* Search Results */}
       {searchResults.length > 0 && (
-        <Container maxWidth="lg" style={{ marginTop: '20px' }}>
-          <Typography variant="h5">Search Results</Typography>
-          <ul>
-            {searchResults.map((result) => (
-              <li key={result.id}>{result.name}</li>
-            ))}
-          </ul>
-        </Container>
-      )}
-
-      {/* Footer */}
+      <Container maxWidth="lg" style={{ marginTop: '20px' }}>
+        <Typography variant="h5">Search Results</Typography>
+        <ul>
+          {searchResults.map((result) => (
+            result.map((resultInner) => (
+            <li key={resultInner.clinic_id}>
+              <Link
+                to={`/clinic/${resultInner.clinic_id}`}
+                style={{ textDecoration: 'none', color: 'inherit' }}
+              >
+                <Paper elevation={3} style={{ padding: '10px', margin: '10px', cursor: 'pointer' }}>
+                  <Typography variant="body1">{resultInner.clinic_name}</Typography>
+                </Paper>
+              </Link>
+            </li>
+            ))
+          ))}
+        </ul>
+      </Container>
+    )}
       <footer style={{ backgroundColor: '#f7f7f7', padding: '20px', marginTop: '20px' }}>
         <Container maxWidth="lg">
           <Grid container spacing={2}>
@@ -157,9 +198,9 @@ function DashboardPage() {
                   <Button
                     variant="text"
                     color="inherit"
-                    component={Link} // Use Link component for navigation
-                    to="/faq" // Redirect to the FAQ page when the button is clicked
-                    style={{ marginLeft: '-12px', color: '#61dafb' }} // Turquoise color for link
+                    component={Link}
+                    to="/faq"
+                    style={{ marginLeft: '-12px', color: '#61dafb' }}
                   >
                     FAQs
                   </Button>

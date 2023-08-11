@@ -11,18 +11,18 @@ function LoginPage() {
   const handleLogin = async () => {
     try {
       // Call the login API
-      const response = await axios.post('http://127.0.0.1:5000/speedocare/login', {
+      const response = await axios.post('http://speedocare.pythonanywhere.com/speedocare/login', {
         username,
         password,
       });
 
-      console.log(response.data); // Login successful message
-
       // Store authentication token (if any) for subsequent API calls (You can use local storage, Redux, or any other state management library)
-      const authToken = response.data.token;
-
-      // For this example, we are simply navigating to the dashboard page after login
-      navigate('/dashboard'); // Replace '/dashboard' with the actual path of your dashboard page
+      const token = response.data.auth_token;
+      console.log('authToken')
+      console.log(response.data.user_id)
+      console.log(token)
+      // navigate(`/dashboard?id=${encodeURIComponent(response.data.user_id)}&token=${encodeURIComponent(token)}`);
+      navigate('/dashboard', { state: { token } });
     } catch (error) {
       console.error('Login failed:', error.message);
     }

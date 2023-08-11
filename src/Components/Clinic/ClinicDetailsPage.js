@@ -18,7 +18,7 @@ function ClinicDetailsPage() {
   useEffect(() => {
     fetchClinicDetails();
     fetchDoctors();
-  }, []);
+  });
 
   const fetchClinicDetails = async () => {
     try {

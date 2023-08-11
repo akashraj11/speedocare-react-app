@@ -13,7 +13,7 @@ import {
   MenuItem,
   Snackbar,
 } from '@mui/material';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function BookingPage() {
   const [selectedDate, setSelectedDate] = useState('');
@@ -93,7 +93,7 @@ function BookingPage() {
       } else if (selectedDisease === 'Diabetes' || selectedDisease === 'Asthma') {
         price = 70;
       }
-      const response = await axios.post('http://speedocare.pythonanywhere.com/speedocare/appointments', {
+      await axios.post('http://speedocare.pythonanywhere.com/speedocare/appointments', {
         appointment_id: appointmentId,
         patient_id: user,
         doctor_id: selectedDoctorIdPost,

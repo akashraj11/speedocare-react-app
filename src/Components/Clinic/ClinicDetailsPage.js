@@ -34,7 +34,7 @@ function ClinicDetailsPage() {
       const response = await axios.get(`https://speedocare.pythonanywhere.com/speedocare/users/doctors/clinic/${clinicId}`);
       setDoctors(response.data);
     } catch (error) {
-      console.error('Failed to fetch doctors:', error.message);
+      console.error('Failed to fetch the doctors:', error.message);
     }
   };
 

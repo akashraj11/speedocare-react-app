@@ -5,7 +5,12 @@ import RegisterPage from './Components/Registration/RegisterPage';
 import DashboardPage from './Components/Dashboard/DashboardPage';
 import FAQPage from './Components/FAQ/FAQPage';
 import BookingPage from './Components/Booking/BookingPage';
+import AboutPage from './Components/About/AboutPage';
+import OurServicesPage from './Components/Services/OurServicesPage';
 import ProfilePage from './Components/Profile/ProfilePage';
+import ContactPage from './Components/Contact/ContactPage';
+import BlogPage from './Components/Blog/BlogPage';
+import AppointmentPage from './Components/Appointment/AppointmentPage';
 import ClinicDetailsPage from './Components/Clinic/ClinicDetailsPage';
 
 function App() {
@@ -18,7 +23,12 @@ function App() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/faq" element={<FAQPage />} />
         <Route path="/booking" element={<BookingPage />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/appointment" element={<AppointmentPage />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/services" element={<OurServicesPage />} />
         <Route path="/clinic/:clinicId"  element={<ClinicDetailsPage />} />
       </Routes>
     </Router>

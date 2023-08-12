@@ -31,7 +31,9 @@ import dashboardImage from '../../Assets/sc-background-2.png';
 function DashboardPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [notifications, setNotifications] = useState([]);
   const [profileMenuAnchor, setProfileMenuAnchor] = useState(null);
+  const [notificationMenuAnchor, setNotificationMenuAnchor] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
@@ -43,12 +45,36 @@ function DashboardPage() {
     searchDoctorAndHospital(searchTerm);
   }, [searchTerm]);
 
+  // useEffect(() => {
+  //   // Fetch notifications when the component mounts
+
+  //   // Periodically fetch notifications every 10 seconds
+  //   const notificationInterval = setInterval(fetchNotifications, 10000); // eslint-disable-next-line
+
+  //   return () => {
+  //     clearInterval(notificationInterval); // eslint-disable-next-line
+  //   };
+  // });  // eslint-disable-next-line
+
+  const handleNotificationMenuClose = () => {
+    setNotificationMenuAnchor(null);
+  };
+
   const handleSearchChange = (event, value) => {
     setSearchTerm(value);
   };
 
   const handleProfileMenuOpen = (event) => {
     setProfileMenuAnchor(event.currentTarget);
+  };
+
+  const fetchNotifications = async () => {
+    try {
+      const response = await axios.get(`http://speedocare.pythonanywhere.com/speedocare/notifications/user/${user}`);
+      setNotifications(response.data);
+    } catch (error) {
+      console.error('Failed to fetch notifications:', error.message);
+    }
   };
 
   const handleProfileMenuClose = () => {
@@ -86,6 +112,12 @@ function DashboardPage() {
         console.error('Failed to fetch clinic info:', error.message);
       }
     }
+  };
+
+  const handleNotificationMenuOpen = (event) => {
+    setNotificationMenuAnchor(event.currentTarget);
+    // Fetch notifications when the menu opens
+    fetchNotifications();
   };
 
   const handleLogout = async () => {
@@ -146,9 +178,30 @@ function DashboardPage() {
             style={{ marginLeft: '20px', marginRight: '20px', width: '500px' }}
           />
           {/* Notification Icon */}
-          <IconButton color="inherit">
-            <NotificationsIcon />
-          </IconButton>
+          <div
+            onMouseEnter={handleNotificationMenuOpen}
+            onMouseLeave={handleNotificationMenuClose}
+          >
+            <IconButton color="inherit">
+              <NotificationsIcon />
+            </IconButton>
+            <Menu
+              anchorEl={notificationMenuAnchor}
+              open={Boolean(notificationMenuAnchor)}
+              onClose={handleNotificationMenuClose}
+            >
+              {notifications.map((notification) => (
+                <MenuItem key={notification.notification_id}>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div>
+                      <Typography variant="body2">{notification.subject}</Typography>
+                      <Typography variant="caption">{notification.notification_date}</Typography>
+                    </div>
+                  </div>
+                </MenuItem>
+              ))}
+            </Menu>
+          </div>
           {/* Profile Icon */}
           <IconButton color="inherit" onClick={handleProfileMenuOpen}>
             <AccountCircleIcon />

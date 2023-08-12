@@ -25,7 +25,8 @@ import {
   Notifications as NotificationsIcon,
   AccountCircle as AccountCircleIcon,
 } from '@mui/icons-material';
-
+import logo from '../../Assets/brand-icon.png';
+import dashboardImage from '../../Assets/sc-background-2.png';
 
 function DashboardPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -37,11 +38,10 @@ function DashboardPage() {
   const token = state.token;
   const user = state.user;
 
-
   useEffect(() => {
     // Fetch initial search results when the component mounts
-    searchDoctorAndHospital(searchTerm); // eslint-disable-next-line
-  }, [searchTerm]); // eslint-disable-next-line
+    searchDoctorAndHospital(searchTerm);
+  }, [searchTerm]);
 
   const handleSearchChange = (event, value) => {
     setSearchTerm(value);
@@ -61,11 +61,8 @@ function DashboardPage() {
   };
 
   const handleButtonClick = () => {
-    navigate('/booking', { state: { token, user } })
-
+    navigate('/booking', { state: { token, user } });
   };
-
-
 
   const searchDoctorAndHospital = (searchTerm) => {
     if (searchTerm === null || searchTerm.trim() === '') {
@@ -76,7 +73,6 @@ function DashboardPage() {
           .get(`https://speedocare.pythonanywhere.com/speedocare/clinics/${searchTerm}`)
           .then((response) => {
             setSearchResults([response.data]);
-          console.log(searchResults)
           })
           .catch((error) => {
             console.error('Failed to fetch clinic info:', error.message);
@@ -85,7 +81,6 @@ function DashboardPage() {
         console.error('Failed to fetch clinic info:', error.message);
       }
     }
-    
   };
 
   const handleLogout = async () => {
@@ -97,9 +92,9 @@ function DashboardPage() {
         },
       });
       console.log(response.data); // Logout successful message
-  
-      // For this example, we are simply navigating to the login page after logout
-      navigate('/login'); // Replace '/login' with the actual path of your login page
+
+      // Navigate to the login page after logout
+      navigate('/login');
     } catch (error) {
       console.error('Logout failed:', error.message);
     }
@@ -110,8 +105,26 @@ function DashboardPage() {
       <AppBar position="static" style={{ backgroundColor: '#0a7557' }}>
         <Toolbar>
           <Typography variant="h6" style={{ flexGrow: 1 }}>
+            <img src={logo} alt="Brand Logo" style={{ marginRight: '10px', height: '30px' }} />
             Clinic Reservation
           </Typography>
+          <Box>
+            <Button style={{ color: 'white', marginRight: '20px' }}>
+              Home
+            </Button>
+            <Button component={Link} to="/about" style={{ color: 'white', marginRight: '20px' }}>
+              About
+            </Button>
+            <Button component={Link} to="/services" style={{ color: 'white', marginRight: '20px' }}>
+              Our Services
+            </Button>
+            <Button component={Link} to="/blog" style={{ color: 'white', marginRight: '20px' }}>
+              Blog
+            </Button>
+            <Button component={Link} to="/contact" style={{ color: 'white', marginRight: '20px' }}>
+              Contact
+            </Button>
+          </Box>
           <Autocomplete
             freeSolo
             options={[]}
@@ -140,12 +153,8 @@ function DashboardPage() {
             open={Boolean(profileMenuAnchor)}
             onClose={handleProfileMenuClose}
           >
-            <MenuItem onClick={handleViewProfile}>
-              View Profile
-            </MenuItem>
-            <MenuItem component={Link} to="/appointments">
-              View Appointments
-            </MenuItem>
+            <MenuItem onClick={handleViewProfile}>View Profile</MenuItem>
+            <MenuItem component={Link} to="/appointments">View Appointments</MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
         </Toolbar>
@@ -154,12 +163,15 @@ function DashboardPage() {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Paper style={{ padding: '20px', backgroundColor: '#ffffff' }}>
-              <Typography variant="h5">Welcome to the Dashboard</Typography>
+              <Typography variant="h5">Welcome to SpeedoCare</Typography>
               <Typography variant="body1">
-                This is the main content of your dashboard.
+                We offer people to easily connect with experts for primary care services, diagnosis and treatment of diseases
               </Typography>
             </Paper>
           </Grid>
+        </Grid>
+        <Grid container justifyContent="center" style={{ marginTop: '20px' }}>
+          <img src={dashboardImage} alt="Dashboard" style={{ width: '100%', objectFit: 'cover' }} />
         </Grid>
         <Grid container justifyContent="center" style={{ marginTop: '20px' }}>
           <Button
@@ -173,58 +185,56 @@ function DashboardPage() {
         </Grid>
       </Container>
       {searchResults.length > 0 && (
-      <Container maxWidth="lg" style={{ marginTop: '20px' }}>
-        <Typography variant="h5">Search Results</Typography>
-        <ul>
-          {searchResults.map((result) => (
-            result.map((resultInner) => (
-            <li key={resultInner.clinic_id}>
-              <Link
-                to={`/clinic/${resultInner.clinic_id}`}
-                style={{ textDecoration: 'none', color: 'inherit' }}
-              >
-                <Paper elevation={3} style={{ padding: '10px', margin: '10px', cursor: 'pointer' }}>
-                  <Typography variant="body1">{resultInner.clinic_name}</Typography>
-                </Paper>
-              </Link>
-            </li>
-            ))
-          ))}
-        </ul>
-      </Container>
-    )}
+        <Container maxWidth="lg" style={{ marginTop: '20px' }}>
+          <Typography variant="h5">Search Results</Typography>
+          <ul>
+            {searchResults.map((result) => (
+              result.map((resultInner) => (
+                <li key={resultInner.clinic_id}>
+                  <Link
+                    to={`/clinic/${resultInner.clinic_id}`}
+                    style={{ textDecoration: 'none', color: 'inherit' }}
+                  >
+                    <Paper elevation={3} style={{ padding: '10px', margin: '10px', cursor: 'pointer' }}>
+                      <Typography variant="body1">{resultInner.clinic_name}</Typography>
+                    </Paper>
+                  </Link>
+                </li>
+              ))
+            ))}
+          </ul>
+        </Container>
+      )}
       <footer style={{ backgroundColor: '#f7f7f7', padding: '20px', marginTop: '20px' }}>
         <Container maxWidth="lg">
           <Grid container spacing={2}>
             <Grid item xs={12} md={4}>
-              <Typography variant="h6">RESOURCES</Typography>
+              <Typography variant="h6" style={{ color: '#0a7557' }}>
+                RESOURCES
+              </Typography>
               <ul>
-                <li>Resource Hub</li>
-                <li>Compare</li>
                 <li>Company & News</li>
                 <li>
-                  <Button
-                    variant="text"
-                    color="inherit"
-                    component={Link}
-                    to="/faq"
-                    style={{ marginLeft: '-12px', color: '#61dafb' }}
-                  >
+                  <a href="/faq" style={{ color: '#0a7557', textDecoration: 'none' }}>
                     FAQs
-                  </Button>
+                  </a>
                 </li>
                 <li>API Support Request</li>
               </ul>
             </Grid>
             <Grid item xs={12} md={4}>
-              <Typography variant="h6">OUR REVIEWS</Typography>
+              <Typography variant="h6" style={{ color: '#0a7557' }}>
+                OUR REVIEWS
+              </Typography>
               <ul>
                 <li>Capterra</li>
                 <li>G2</li>
               </ul>
             </Grid>
             <Grid item xs={12} md={4}>
-              <Typography variant="h6">ABOUT US</Typography>
+              <Typography variant="h6" style={{ color: '#0a7557' }}>
+                ABOUT US
+              </Typography>
               <ul>
                 <li>Careers</li>
                 <li>We're Hiring</li>
@@ -243,11 +253,11 @@ function DashboardPage() {
             </Grid>
             <Grid item xs={12} sm={6} style={{ display: 'flex', justifyContent: 'flex-end' }}>
               <Box display="flex" alignItems="center">
-                <Facebook fontSize="small" style={{ marginRight: '8px' }} />
-                <Twitter fontSize="small" style={{ marginRight: '8px' }} />
-                <Instagram fontSize="small" style={{ marginRight: '8px' }} />
-                <LinkedIn fontSize="small" style={{ marginRight: '8px' }} />
-                <YouTube fontSize="small" />
+                <Facebook fontSize="small" style={{ marginRight: '8px', color: '#0a7557' }} />
+                <Twitter fontSize="small" style={{ marginRight: '8px', color: '#0a7557' }} />
+                <Instagram fontSize="small" style={{ marginRight: '8px', color: '#0a7557' }} />
+                <LinkedIn fontSize="small" style={{ marginRight: '8px', color: '#0a7557' }} />
+                <YouTube fontSize="small" style={{ color: '#0a7557' }} />
               </Box>
             </Grid>
           </Grid>

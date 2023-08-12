@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button, Container, Box, Typography, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
-import { Link, useNavigate  } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function RegisterPage() {
@@ -77,205 +77,207 @@ function RegisterPage() {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box mt={5} textAlign="center">
-        <Typography variant="h4" gutterBottom style={{ color: '#0a7557' }}>
-          Register
-        </Typography>
-        <form onSubmit={handleRegistration}>
-          <TextField
-            label="Username"
-            variant="outlined"
-            fullWidth
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            margin="normal"
-            required
-            inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
-          />
-          <TextField
-            label="First Name"
-            variant="outlined"
-            fullWidth
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            margin="normal"
-            required
-            inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
-          />
-          <TextField
-            label="Last Name"
-            variant="outlined"
-            fullWidth
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            margin="normal"
-            required
-            inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
-          />
-          <TextField
-            label="Contact No."
-            variant="outlined"
-            fullWidth
-            value={contactNo}
-            onChange={(e) => setContactNo(e.target.value)}
-            margin="normal"
-            required
-            inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
-          />
-          <TextField
-            label="Email"
-            variant="outlined"
-            fullWidth
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            margin="normal"
-            required
-            inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
-          />
-          <TextField
-            label="Password"
-            variant="outlined"
-            fullWidth
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            margin="normal"
-            required
-            inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
-          />
-          <TextField
-            label="Address"
-            variant="outlined"
-            fullWidth
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            margin="normal"
-            required
-            inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
-          />
-          <TextField
-            label="Date of Birth"
-            variant="outlined"
-            fullWidth
-            type="date"
-            value={dateOfBirth}
-            onChange={(e) => setDateOfBirth(e.target.value)}
-            margin="normal"
-            required
-            InputLabelProps={{
-              shrink: true,
-            }}
-            inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
-          />
-          <FormControl variant="outlined" fullWidth margin="normal" required>
-            <InputLabel>User Role</InputLabel>
-            <Select
-              label="User Role"
-              value={userRole}
-              onChange={(e) => setUserRole(e.target.value)}
-              inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
-            >
-              <MenuItem value="Patient">Patient</MenuItem>
-              <MenuItem value="Doctor">Doctor</MenuItem>
-              <MenuItem value="ClinicAdmin">Clinic Admin</MenuItem>
-            </Select>
-          </FormControl>
-
-          {/* Show fields based on the selected user role */}
-          {userRole === 'Patient' && (
-            <div>
-              <TextField
-                label="Prescriptions"
-                variant="outlined"
-                fullWidth
-                value={prescriptions}
-                onChange={(e) => setPrescriptions(e.target.value)}
-                margin="normal"
-                inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
-              />
-              <TextField
-                label="Details"
-                variant="outlined"
-                fullWidth
-                value={details}
-                onChange={(e) => setDetails(e.target.value)}
-                margin="normal"
-                inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
-              />
-              <TextField
-                label="Medical History"
-                variant="outlined"
-                fullWidth
-                value={medicalHistory}
-                onChange={(e) => setMedicalHistory(e.target.value)}
-                margin="normal"
-                inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
-              />
-            </div>
-          )}
-
-          {userRole === 'Doctor' && (
-            <div>
-              <TextField
-                label="Clinic ID"
-                variant="outlined"
-                fullWidth
-                value={clinicId}
-                onChange={(e) => setClinicId(e.target.value)}
-                margin="normal"
-                inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
-              />
-              <TextField
-                label="Specialization"
-                variant="outlined"
-                fullWidth
-                value={specialization}
-                onChange={(e) => setSpecialization(e.target.value)}
-                margin="normal"
-                inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
-              />
-            </div>
-          )}
-
-          {userRole === 'ClinicAdmin' && (
-            <div>
-              <TextField
-                label="Clinic Internal ID"
-                variant="outlined"
-                fullWidth
-                value={clinicInternalId}
-                onChange={(e) => setClinicInternalId(e.target.value)}
-                margin="normal"
-                inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
-              />
-              <TextField
-                label="Clinic ID"
-                variant="outlined"
-                fullWidth
-                value={clinicId}
-                onChange={(e) => setClinicId(e.target.value)}
-                margin="normal"
-                inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
-              />
-            </div>
-          )}
-
-          <Button type="submit" variant="contained" style={{ backgroundColor: '#12d39d', color: 'white', marginTop: '20px' }}>
+    <div style={{ backgroundColor: '#0a7557', backgroundSize: 'cover', minHeight: '100vh' }}>
+      <Container maxWidth="sm">
+        <Box mt={5} textAlign="center">
+          <Typography variant="h4" gutterBottom style={{ color: '#0a7557' }}>
             Register
-          </Button>
-        </form>
-        <Box mt={2}>
-          <Typography variant="body2">
-            Already have an account?{' '}
-            <Link to="/login" style={{ color: '#0a7557', textDecoration: 'none' }}>
-              Login
-            </Link>
           </Typography>
+          <form onSubmit={handleRegistration}>
+            <TextField
+              label="Username"
+              variant="outlined"
+              fullWidth
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              margin="normal"
+              required
+              inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
+            />
+            <TextField
+              label="First Name"
+              variant="outlined"
+              fullWidth
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              margin="normal"
+              required
+              inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
+            />
+            <TextField
+              label="Last Name"
+              variant="outlined"
+              fullWidth
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              margin="normal"
+              required
+              inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
+            />
+            <TextField
+              label="Contact No."
+              variant="outlined"
+              fullWidth
+              value={contactNo}
+              onChange={(e) => setContactNo(e.target.value)}
+              margin="normal"
+              required
+              inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
+            />
+            <TextField
+              label="Email"
+              variant="outlined"
+              fullWidth
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              margin="normal"
+              required
+              inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
+            />
+            <TextField
+              label="Password"
+              variant="outlined"
+              fullWidth
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              margin="normal"
+              required
+              inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
+            />
+            <TextField
+              label="Address"
+              variant="outlined"
+              fullWidth
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              margin="normal"
+              required
+              inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
+            />
+            <TextField
+              label="Date of Birth"
+              variant="outlined"
+              fullWidth
+              type="date"
+              value={dateOfBirth}
+              onChange={(e) => setDateOfBirth(e.target.value)}
+              margin="normal"
+              required
+              InputLabelProps={{
+                shrink: true,
+              }}
+              inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
+            />
+            <FormControl variant="outlined" fullWidth margin="normal" required>
+              <InputLabel>User Role</InputLabel>
+              <Select
+                label="User Role"
+                value={userRole}
+                onChange={(e) => setUserRole(e.target.value)}
+                inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
+              >
+                <MenuItem value="Patient">Patient</MenuItem>
+                <MenuItem value="Doctor">Doctor</MenuItem>
+                <MenuItem value="ClinicAdmin">Clinic Admin</MenuItem>
+              </Select>
+            </FormControl>
+
+            {/* Show fields based on the selected user role */}
+            {userRole === 'Patient' && (
+              <div>
+                <TextField
+                  label="Prescriptions"
+                  variant="outlined"
+                  fullWidth
+                  value={prescriptions}
+                  onChange={(e) => setPrescriptions(e.target.value)}
+                  margin="normal"
+                  inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
+                />
+                <TextField
+                  label="Details"
+                  variant="outlined"
+                  fullWidth
+                  value={details}
+                  onChange={(e) => setDetails(e.target.value)}
+                  margin="normal"
+                  inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
+                />
+                <TextField
+                  label="Medical History"
+                  variant="outlined"
+                  fullWidth
+                  value={medicalHistory}
+                  onChange={(e) => setMedicalHistory(e.target.value)}
+                  margin="normal"
+                  inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
+                />
+              </div>
+            )}
+
+            {userRole === 'Doctor' && (
+              <div>
+                <TextField
+                  label="Clinic ID"
+                  variant="outlined"
+                  fullWidth
+                  value={clinicId}
+                  onChange={(e) => setClinicId(e.target.value)}
+                  margin="normal"
+                  inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
+                />
+                <TextField
+                  label="Specialization"
+                  variant="outlined"
+                  fullWidth
+                  value={specialization}
+                  onChange={(e) => setSpecialization(e.target.value)}
+                  margin="normal"
+                  inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
+                />
+              </div>
+            )}
+
+            {userRole === 'ClinicAdmin' && (
+              <div>
+                <TextField
+                  label="Clinic Internal ID"
+                  variant="outlined"
+                  fullWidth
+                  value={clinicInternalId}
+                  onChange={(e) => setClinicInternalId(e.target.value)}
+                  margin="normal"
+                  inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
+                />
+                <TextField
+                  label="Clinic ID"
+                  variant="outlined"
+                  fullWidth
+                  value={clinicId}
+                  onChange={(e) => setClinicId(e.target.value)}
+                  margin="normal"
+                  inputProps={{ style: { backgroundColor: '#e6e6e6' } }} /* Light gray background */
+                />
+              </div>
+            )}
+
+            <Button type="submit" variant="contained" style={{ backgroundColor: '#12d39d', color: 'white', marginTop: '20px' }}>
+              Register
+            </Button>
+          </form>
+          <Box mt={2}>
+            <Typography variant="body2">
+              Already have an account?{' '}
+              <Link to="/login" style={{ color: '#0a7557', textDecoration: 'none' }}>
+                Login
+              </Link>
+            </Typography>
+          </Box>
         </Box>
-      </Box>
-    </Container>
+      </Container>
+    </div>
   );
 }
 

@@ -39,7 +39,7 @@ function FAQPage() {
       {faqData.map((faq, index) => (
         <Accordion key={index}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} style={{ backgroundColor: '#e6e6e6' }}> {/* Light gray background */}
-            <Typography variant="h6" style={{ color: '#2bedb7' }}>{faq.question}</Typography> {/* Mint green color */}
+            <Typography variant="h6" >{faq.question}</Typography> {/* Mint green color */}
           </AccordionSummary>
           <AccordionDetails>
             <Typography variant="body1">{faq.answer}</Typography>

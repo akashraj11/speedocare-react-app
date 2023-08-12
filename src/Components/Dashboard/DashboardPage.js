@@ -161,6 +161,9 @@ function DashboardPage() {
             <Button component={Link} to="/contact" style={{ color: 'white', marginRight: '20px' }}>
               Contact
             </Button>
+            <Button component={Link} to="/faq" style={{ color: 'white', marginRight: '20px' }}>
+              FAQs
+            </Button>
           </Box>
           <Autocomplete
             freeSolo

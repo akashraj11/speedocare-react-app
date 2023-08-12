@@ -15,7 +15,7 @@ const AppointmentsPage = () => {
         // Fetch booked appointment details for the user
         const fetchAppointments = async () => {
             try {
-                const response = await axios.get(`http://speedocare.pythonanywhere.com/speedocare/appointments/patient/${user}`);
+                const response = await axios.get(`https://speedocare.pythonanywhere.com/speedocare/appointments/patient/${user}`);
                 setAppointments(response.data);
             } catch (error) {
                 console.error('Failed to fetch appointments:', error.message);

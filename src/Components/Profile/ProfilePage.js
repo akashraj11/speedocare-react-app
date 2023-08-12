@@ -15,7 +15,7 @@ const ProfilePage = () => {
     // Fetch user profile information
     const fetchProfile = async () => {
       try {
-        const response = await axios.get(`http://speedocare.pythonanywhere.com/speedocare/users/${user}`);
+        const response = await axios.get(`https://speedocare.pythonanywhere.com/speedocare/users/${user}`);
         setProfileData(response.data);
       } catch (error) {
         console.error('Failed to fetch user profile:', error.message);

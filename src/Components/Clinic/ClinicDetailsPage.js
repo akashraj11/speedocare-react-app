@@ -14,11 +14,14 @@ function ClinicDetailsPage() {
   const { clinicId } = useParams();
   const [clinicDetails, setClinicDetails] = useState(null);
   const [doctors, setDoctors] = useState([]);
+  const [clinicReviews, setClinicReviews] = useState([]);
 
   useEffect(() => {
-    fetchClinicDetails();
-    fetchDoctors();
-  });
+    fetchClinicDetails(); // eslint-disable-next-line 
+    fetchDoctors(); // eslint-disable-next-line 
+    fetchClinicReviews(); // eslint-disable-next-line 
+  }, [clinicId]); // Add clinicId to the dependency array
+
 
   const fetchClinicDetails = async () => {
     try {
@@ -35,6 +38,17 @@ function ClinicDetailsPage() {
       setDoctors(response.data);
     } catch (error) {
       console.error('Failed to fetch the doctors:', error.message);
+    }
+  };
+
+  const fetchClinicReviews = async () => {
+    try {
+      const response = await axios.get(
+        `https://speedocare.pythonanywhere.com/speedocare/reviews/clinic/${clinicId}`
+      );
+      setClinicReviews(response.data);
+    } catch (error) {
+      console.error('Failed to fetch clinic reviews:', error.message);
     }
   };
 
@@ -59,6 +73,20 @@ function ClinicDetailsPage() {
                 <ListItemText
                   primary={`${doctor.first_name} ${doctor.last_name}`}
                   secondary={`Specialization: ${doctor.doctor.specialization}`}
+                />
+              </ListItem>
+            ))}
+          </List>
+        )}
+
+      <Typography variant="h5" style={{ marginTop: '20px' }}>Reviews</Typography>
+        {clinicReviews.length > 0 && (
+          <List style={{ marginTop: '10px' }}>
+            {clinicReviews.map((review, index) => (
+              <ListItem key={index} style={{ backgroundColor: '#ffffff', marginBottom: '10px', border: '1px solid #e6e6e6' }}>
+                <ListItemText
+                  primary={`Rating: ${review.rating}`}
+                  secondary={review.review_text}
                 />
               </ListItem>
             ))}

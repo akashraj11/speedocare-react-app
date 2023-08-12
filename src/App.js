@@ -10,6 +10,7 @@ import OurServicesPage from './Components/Services/OurServicesPage';
 import ProfilePage from './Components/Profile/ProfilePage';
 import ContactPage from './Components/Contact/ContactPage';
 import BlogPage from './Components/Blog/BlogPage';
+import AppointmentPage from './Components/Appointment/AppointmentPage';
 import ClinicDetailsPage from './Components/Clinic/ClinicDetailsPage';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/booking" element={<BookingPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/appointment" element={<AppointmentPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/services" element={<OurServicesPage />} />

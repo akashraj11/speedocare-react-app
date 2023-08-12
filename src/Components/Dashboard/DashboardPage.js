@@ -60,6 +60,11 @@ function DashboardPage() {
     navigate('/profile', { state: { token, user } });
   };
 
+  const handleViewAppointment = () => {
+    // Navigate to the ProfilePage and pass token as state
+    navigate('/appointment', { state: { token, user } });
+  };
+
   const handleButtonClick = () => {
     navigate('/booking', { state: { token, user } });
   };
@@ -154,7 +159,7 @@ function DashboardPage() {
             onClose={handleProfileMenuClose}
           >
             <MenuItem onClick={handleViewProfile}>View Profile</MenuItem>
-            <MenuItem component={Link} to="/appointments">View Appointments</MenuItem>
+            <MenuItem onClick={handleViewAppointment}>View Appointments</MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
         </Toolbar>

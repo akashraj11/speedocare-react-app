@@ -272,10 +272,8 @@ function DashboardPage() {
               </Typography>
               <ul>
                 <li>Company & News</li>
-                <li>
-                  <a href="/faq" style={{ color: '#0a7557', textDecoration: 'none' }}>
+                <li component={Link} to="/faq"  style={{ color: '#0a7557', textDecoration: 'none' }}> 
                     FAQs
-                  </a>
                 </li>
                 <li>API Support Request</li>
               </ul>

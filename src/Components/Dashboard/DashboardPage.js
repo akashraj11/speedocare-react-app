@@ -70,7 +70,7 @@ function DashboardPage() {
 
   const fetchNotifications = async () => {
     try {
-      const response = await axios.get(`http://speedocare.pythonanywhere.com/speedocare/notifications/user/${user}`);
+      const response = await axios.get(`https://speedocare.pythonanywhere.com/speedocare/notifications/user/${user}`);
       setNotifications(response.data);
     } catch (error) {
       console.error('Failed to fetch notifications:', error.message);
